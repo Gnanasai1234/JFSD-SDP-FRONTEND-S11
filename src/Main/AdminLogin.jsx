@@ -1,10 +1,14 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-export default function Login() {
-  const [userCreds, setUserCred] = useState({
+export default function Login({onAdminLoggedIn}) {
+  const [userCred, setUserCred] = useState({
     username: "",
     password: "",
   });
+
+  const [error,setError]=useState("")
 
   const [message, setMessage] = useState({
     type: "invisible-msg",
@@ -12,12 +16,30 @@ export default function Login() {
   });
 
   const handleInput = (e) => {
-    setUserCred({ ...userCreds, [e.target.name]: e.target.value });
+    setUserCred({ ...userCred, [e.target.name]: e.target.value });
   };
 
-  const submitForm = (e) => {
+  const navigate=useNavigate()
+
+  const submitForm = async(e) => {
     e.preventDefault();
-  };
+    try {
+      const response = await axios.post("http://localhost:8080/admin/login", userCred);
+      
+      if (response.status === 200) {
+        localStorage.setItem("user", userCred.username);
+        
+        onAdminLoggedIn();
+        setUserCred({ username: "", password: "" });
+        setError(null); 
+        navigate("/admin/adminhome") 
+      } else {
+        setError("Login failed. Please try again.");
+        setUserCred({ username: "", password: "" });
+      }
+    } catch (err) {
+      setError("Login failed. Please check your username and password.");
+    }  };
 
   return (
     <div style={styles.container}>
@@ -44,7 +66,7 @@ export default function Login() {
               style={styles.input}
             />
           </div>
-          <button type="submit" style={styles.button}>Login</button>
+          <button type="submit" style={styles.button} >Login</button>
           <p className={message.type} style={styles.message}>{message.text}</p>
         </form>
       </div>

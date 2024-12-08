@@ -10,31 +10,34 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 import logo from '../images/logo.jpg';
-import Dashboard from './Dashboard';
-import UserLogout from './UserLogout';
+import AdminHome from './AdminHome';
+import AddFood from './AddFood';
+import ViewAllFoods from './ViewAllFoods';
+import ViewAllUsers from './ViewAllUsers';
+import GroupIcon from '@mui/icons-material/Group';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
 import ArticleIcon from '@mui/icons-material/Article';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
-import UserProfile from './UserProfile';
-import GetFoods from './Getfoods';
-import UpdateDiet from './Updatediet';
-import { ListChecks } from 'lucide-react';
-import GetExercises from './GetExercises';
-import UpdateExercise from './UpdateExercise';
-import ViewAllArticle from './ViewAllArticle';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ViewAllArticles from './ViewAllArticles';
+import EditFood from './EditFood';
+import { FaPizzaSlice } from 'react-icons/fa';
+import AddExercise from './AddExercise';
+import { Dumbbell, ListChecks } from 'lucide-react';
+import ViewAllExercises from './ViewAllExercises';
+import EditExercise from './EditExercise';
+import AddArticle from './AddArticle';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import ArticleCard from './ArticleCard';
-
+import ViewUserDiet from './ViewUserDiet';
 
 function AdminNavbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   const toggleDrawer = (open) => () => {
-
     setIsDrawerOpen(open);
-
   };
 
   const handleLogout = () => {
@@ -45,20 +48,21 @@ function AdminNavbar() {
   };
 
   const menuItems = [
-    { text: 'Dashboard', path: '/user/dashboard', icon: <DashboardIcon /> },
-    { text: 'Update Diet', path: '/user/updatediet', icon: <RestaurantIcon /> },
-    { text: 'Articles', path: '/user/articles', icon: <ArticleIcon /> },
-    {text:'View Exercises', path:'user/viewexercise',icon:<ListChecks/>},
-    { text: 'Profile', path: '/user/profile', icon: <AccountCircleIcon /> },
-    { text: 'logout', path: '/user/logout',icon:<LogoutIcon /> },
-
-  ];
+    { text: 'View Foods', path: '/admin/viewfood', icon: <FaPizzaSlice /> },
+    { text: 'Add Food', path: '/admin/addfood', icon: <FastfoodIcon /> },
+    {text:'Add Exercise' , path:'/admin/addexercise' ,   icon: <Dumbbell />},
+    {text:'View Exercises' , path:'/admin/viewexercise' , icon:<ListChecks/>},
+    { text: 'Add Articles', path: '/admin/addarticle', icon: <AddCircleIcon /> },
+    { text: 'View Articles', path: '/admin/viewallarticles', icon: <ViewListIcon /> },
+    { text: 'View All Users', path: '/admin/viewallusers', icon: <GroupIcon /> },
+  
+];
 
   const drawerList = (
     <Box
       sx={{
         width: 250,
-        background: '#F4F6FF',  // Apply the color here
+        background: '#F4F6FF',
         height: '100%',
         color: 'black'
       }}
@@ -67,7 +71,7 @@ function AdminNavbar() {
       onKeyDown={toggleDrawer(false)}
     >
       <Box sx={{ p: 2, textAlign: 'center' }}>
-        <Link to="/admin/adminhome">
+        <Link to="/admin/viewfood/">
           <img src={logo} alt="Logo" style={{ width: '80%', height: 'auto' }} />
         </Link>
       </Box>
@@ -83,11 +87,18 @@ function AdminNavbar() {
             </ListItemButton>
           </ListItem>
         ))}
-       
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleLogout}>
+            <ListItemIcon sx={{ color: 'grey' }}>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
-
+  
   return (
     <div>
       {!isDrawerOpen && (
@@ -115,26 +126,30 @@ function AdminNavbar() {
         {drawerList}
       </Drawer>
 
+      {/* Main Content */}
       <Box sx={{
         marginLeft: isDrawerOpen ? '250px' : '0',
         transition: 'margin-left 0.3s ease',
         p: 3
       }}>
         <Routes>
-          <Route path="/user/" element={<Dashboard />} />
-          <Route path="/user/dashboard" element={<Dashboard />} />
-          <Route path="/user/updatediet" element={<GetFoods />} />
-          <Route path="/user/viewexercise" element={<GetExercises />} />
-          <Route path="/user/viewarticle" element={<ArticleCard />} />
+        <Route path="/" element={<ViewAllFoods />} />
+          <Route path="/admin/" element={<ViewAllFoods />} />
+          <Route path="/admin/adminhome" element={<AdminHome />} />
+          <Route path="/admin/addfood" element={<AddFood />} />
+          <Route path="/admin/viewfood" element={<ViewAllFoods />} />
+          <Route path="/admin/viewallusers" element={<ViewAllUsers />} />
+          <Route path="/admin/viewallarticles" element={<ViewAllArticles />} />
+          <Route path="/admin/editfood" element={<EditFood/>} />
+          <Route path="/admin/addarticle" element={<AddArticle/>}/>
+          <Route path="/admin/viewarticle" element={<ArticleCard/>}/>
+          <Route path="/admin/addexercise" element={<AddExercise/>}/>
+          <Route path="/admin/viewexercise" element={<ViewAllExercises/>}/>
+          <Route path="/admin/editexercise" element={<EditExercise/>}/>
+          <Route path="/admin/viewuserdiet" element={<ViewUserDiet/>}/>
 
-          <Route path="/user/articles" element={<ViewAllArticle />} />
-          <Route path="/user/profile" element={<UserProfile />} />
-          <Route path="/user/logout" element={<UserLogout />} />
-          <Route path="/user/updatedietpage" element={<UpdateDiet/>}/>
-          <Route path="/user/updatexercisepage" element={<UpdateExercise/>}/>
 
         </Routes>
-
       </Box>
     </div>
   );

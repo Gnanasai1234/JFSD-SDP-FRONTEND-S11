@@ -5,16 +5,16 @@ import healthreceipies from '../images/healthreceipies.jpg';
 import progress from '../images/progress.jpg';
 import anywhere from '../images/anywhere.jpg';
 import logo from '../images/logo.jpg';
+import homeimage from '../images/homepage.jpg'
 
 const HomePage = () => {
   return (
-    <div style={{ ...styles.container, marginTop:'130px' ,width:'1400px',marginLeft:'20px',height:'60vh' }}> 
+    <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
         <div style={styles.logo}>NutriTrack</div>
       </div>
 
-      {/* Hero Section */}
       <div style={styles.heroSection}>
         <div style={styles.heroOverlay}>
           <h1 style={styles.heroText}>Eat Smart, Live Well</h1>
@@ -24,9 +24,8 @@ const HomePage = () => {
 
       {/* Features Overview */}
       <div style={styles.featuresSection}>
-        <h2>App Features</h2>
+        <h2 style={styles.featuresHeading}>App Features</h2>
         <div style={styles.featuresGrid}>
-
           <div style={styles.featureCard}>
             <img src={TrackImage} alt="Track Meals" style={styles.featureIcon} />
             <h3>Track Meals</h3>
@@ -38,6 +37,7 @@ const HomePage = () => {
             <h3>Healthy Recipes</h3>
             <p>Explore balanced and delicious meals curated by experts.</p>
           </div>
+
           <div style={styles.featureCard}>
             <img src={progress} alt="Progress Reports" style={styles.featureIcon} />
             <h3>Progress Reports</h3>
@@ -48,26 +48,22 @@ const HomePage = () => {
 
       {/* Benefits Section */}
       <div style={styles.benefitsSection}>
-        <h2>Why Choose NutriTrack?</h2>
-
+        <h2 style={styles.featuresHeading}>Why Choose NutriTrack?</h2>
         <div style={styles.benefitsGrid}>
-          <div style={styles.benefitItem1}>
           <div style={styles.benefitItem}>
-            <img src={customplan} alt="Benefit" style={styles.benefitIcon} />
+            <img src={customplan} alt="Custom Meal Plan" style={styles.benefitIcon} />
             <p>Custom meal planning tailored to your dietary needs.</p>
           </div>
-          </div>
           <div style={styles.benefitItem}>
-            <img src={anywhere} alt="Benefit" style={styles.benefitIcon} />
+            <img src={anywhere} alt="Access Anywhere" style={styles.benefitIcon} />
             <p>Accessible from anywhere, anytime.</p>
           </div>
-
         </div>
       </div>
 
       {/* Testimonials Section */}
       <div style={styles.testimonialsSection}>
-        <h2>What Our Users Say</h2>
+        <h2 style={styles.featuresHeading}>What Our Users Say</h2>
         <div style={styles.testimonial}>
           <p>"NutriTrack has transformed the way I manage my diet. Highly recommended!"</p>
           <span>- Sarah</span>
@@ -90,93 +86,119 @@ const HomePage = () => {
   );
 };
 
+
 const styles = {
-  
   container: {
     fontFamily: "'Arial', sans-serif",
     color: "#333",
     margin: "0",
     padding: "0",
+    width: '100%',
+    backgroundColor: "#f4f4f9", // Light background for the whole page
+    boxSizing: 'border-box', // Ensures padding is included in width/height calculations
   },
   header: {
-    height:"auto",
+    height: "auto",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "20px",
+    padding: "20px 40px",
     backgroundColor: "#28a745",
     color: "#fff",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Adds a subtle shadow below the header
   },
   logo: {
-    height:"auto",
-    fontSize: "24px",
+    fontSize: "30px",
     fontWeight: "bold",
   },
   heroSection: {
     position: "relative",
-    width:"100%",
-    height: "100vh", // Adjust the height as needed
-    backgroundImage: `url(${logo})`, // Path to the logo image
-    backgroundSize: "cover", // Ensures the image fits within the section
-    backgroundRepeat: "no-repeat", // Prevents repeating the image
-    backgroundPosition: "center center", // Centers the image in the hero section
+    width: "100%",
+    height: "100vh", 
+    backgroundImage: `url(${homeimage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    
+    alignItems: "center",
   },
   heroOverlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for better readability of text
-    padding: "40px",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: "50px",
     borderRadius: "10px",
     textAlign: "center",
     color: "#fff",
   },
   heroText: {
-    fontSize: "48px",
+    fontSize: "56px",
     fontWeight: "bold",
-    marginBottom: "10px",
+    marginBottom: "20px",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
   },
   heroSubText: {
-    fontSize: "18px",
+    fontSize: "20px",
+    fontWeight: "300",
   },
   featuresSection: {
     padding: "60px 20px",
     backgroundColor: "#f9f9f9",
   },
+  featuresHeading: {
+    fontSize: "36px",
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: "40px",
+  },
   featuresGrid: {
     display: "flex",
     justifyContent: "space-around",
     gap: "20px",
+    flexWrap: "wrap",
   },
   featureCard: {
     backgroundColor: "#fff",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    padding: "25px",
+    borderRadius: "12px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
     width: "30%",
+    minWidth: "280px", // Ensure cards are responsive
+    marginBottom: "20px",
   },
   featureIcon: {
-    marginBottom: "10px",
-    height: "200px", 
     width: "100%",
+    height: "250px",
+    objectFit: "cover",
+    borderRadius: "8px",
+    marginBottom: "15px",
   },
   benefitsSection: {
     padding: "60px 20px",
+    backgroundColor: "#fff",
   },
   benefitsGrid: {
     display: "flex",
     justifyContent: "space-around",
+    flexWrap: "wrap",
+    gap: "30px",
   },
   benefitItem: {
+    backgroundColor: "#f9f9f9",
+    padding: "20px",
+    borderRadius: "12px",
+    boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
+    width: "45%",
+    minWidth: "300px",
+    marginBottom: "20px",
   },
   benefitIcon: {
-    marginBottom: "10px",
-    height: "300px",
     width: "100%",
+    height: "200px",
+    objectFit: "cover",
+    borderRadius: "8px",
+    marginBottom: "15px",
   },
   testimonialsSection: {
     padding: "60px 20px",
@@ -186,6 +208,7 @@ const styles = {
   testimonial: {
     fontStyle: "italic",
     marginBottom: "20px",
+    fontSize: "18px",
   },
   footer: {
     padding: "20px",
@@ -196,34 +219,13 @@ const styles = {
   footerNav: {
     display: "flex",
     justifyContent: "center",
-    gap: "20px",
+    gap: "30px",
+    marginTop: "15px",
   },
   footerLink: {
     color: "#fff",
     textDecoration: "none",
-  },
-  benefitItem1: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: "20px", // Adjusts spacing between multiple cards
-  },
-  benefitItem: {
-    backgroundColor: "white",                     // White background for the card
-    borderRadius: "10px",                         // Rounded corners
-    padding: "20px",                              // Adds spacing inside the card
-    boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
-    width: "300px",                               // Width of the card
-    textAlign: "center",                          // Centers the content
-  },
-  benefitIcon: {
-    borderRadius: "10px",                         // Keeps rounded corners on the image
-    marginTop: "20px",
-    marginBottom: "10px",
-    height: "200px",                              // Adjusts height for the image
-    width: "100%",                                // Ensures the image fits within the card width
-    objectFit: "cover",                           // Ensures the image scales properly
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Adds a subtle shadow to the image
+    fontSize: "16px",
   },
 };
 

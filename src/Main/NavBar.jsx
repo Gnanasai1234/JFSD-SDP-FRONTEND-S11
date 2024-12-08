@@ -7,8 +7,9 @@ import Notfound from '../Usercomponents/NotFound';
 import React, { useState } from 'react';
 import logo from '../images/logo.jpg'; 
 import UserLogin from './UserLogin'
+import AddFood from '../AdminComponent/AddFood';
 
-function Navbar() {
+function Navbar({onUserLoggedIn,onAdminLoggedIn}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -174,7 +175,6 @@ function Navbar() {
           }
         `}
       </style>
-      <BrowserRouter>
         <nav className="navbar-container">
           <div className="navbar-logo">
             <Link to="/">  
@@ -193,7 +193,7 @@ function Navbar() {
             <li className="navbar-menu-item navbar-dropdown">
               <Link to="#">Login</Link>
               <div className="navbar-dropdown-content">
-                <Link to="/userlogin">User Login/Register</Link>
+                <Link to="/userlogin" >User Login/Register</Link>
                 <Link to="/adminlogin">Admin Login</Link>
               </div>
             </li>
@@ -203,19 +203,23 @@ function Navbar() {
             <li className="navbar-menu-item">
               <Link to="/contact">Contact</Link>
             </li>
+            {/* <li className="navbar-menu-item">
+              <Link to="/addfood">Add Food</Link>
+            </li> */}
           </ul>
         </nav>
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/userlogin" element={<UserLogin />} />
-          <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/userlogin" element={<UserLogin onUserLoggedIn={onUserLoggedIn} />} />
+          <Route path="/adminlogin" element={<AdminLogin onAdminLoggedIn={onAdminLoggedIn} />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/addfood" element={<AddFood />} />
+
           <Route path="*" element={<Notfound />} />
         </Routes>
-      </BrowserRouter>
     </div>
   );
 }

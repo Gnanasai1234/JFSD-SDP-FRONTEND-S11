@@ -1,26 +1,48 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import Navbar from './Main/NavBar';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UserNavbar from './Usercomponents/UserNavbar';
+import Navbar from './Main/NavBar';
+import AdminNavbar from './AdminComponent/AdminNavbar';
+
 
 function App() {
-  // const [loggedUser, setLoggedUser] = useState(JSON.parse(localStorage.getItem("nutrify-user")));
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [adminLoggedIn, setAdminLoggedIn] = useState(false);
 
-  // useEffect(() => {
-  //   const user = localStorage.getItem("nutrify-user");
-  //   if (user !== null) {
-  //     setLoggedUser(JSON.parse(user));
-  //   }
-  // }, []); 
+  useEffect(() => {
+    const userStatus = localStorage.getItem('userLogged') === 'true';
+    const adminStatus = localStorage.getItem('adminLogged') === 'true';
+    setUserLoggedIn(userStatus);
+    setAdminLoggedIn(adminStatus);
+  }, []);
+
+  const onUserLoggedIn = () => {
+    localStorage.setItem("userLogged", "true");
+    setUserLoggedIn(true);
+  };
+
+  const onAdminLoggedIn = () => {
+    localStorage.setItem("adminLogged", "true");
+    setAdminLoggedIn(true);
+  };
 
   return (
     <div className="App">
-
-    <Navbar/>
-    {/* <UserNavbar/> */}
+      <Router>
+        {adminLoggedIn ? (
+          
+            <AdminNavbar />
+            
+          
+        ) : userLoggedIn ? (
+          <UserNavbar />
+        ) : (
+          <Navbar onUserLoggedIn={onUserLoggedIn} onAdminLoggedIn={onAdminLoggedIn} />
+        )} 
+      </Router>
     
-    
+      
     </div>
   );
 }

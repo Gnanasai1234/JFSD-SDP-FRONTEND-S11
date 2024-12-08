@@ -12,7 +12,6 @@ import {
   Filler
 } from 'chart.js';
 
-// Register components globally
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,23 +23,31 @@ ChartJS.register(
   Filler
 );
 
-export default function ProteinGraph() {
-  const data = {
-    labels: ["Breakfast", "Morning Snack", "Lunch", "Afternoon Snack", "Dinner"],
+export default function ProteinGraph({ data }) {
+  const { breakfastSums, dinnerSums, lunchSums, snacksSums } = data;
+
+  const proteinData = [
+    breakfastSums.protein,
+    lunchSums.protein,
+    dinnerSums.protein,
+    snacksSums.protein
+  ];
+
+  const totalProtein = breakfastSums.protein+ snacksSums.protein+lunchSums.protein+dinnerSums.protein;
+
+  const chartData = {
+    labels: ["Breakfast", "Lunch", "Dinner", "Snacks"],
     datasets: [
       {
         label: "Protein (g)",
-        data: [25, 10, 30, 15, 20],
+        data: proteinData,
         borderColor: 'rgba(255, 99, 132, 1)',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
         fill: true,
         tension: 0.4,
       }
     ]
   };
-
-  // Calculate total protein intake
-  const totalProtein = data.datasets[0].data.reduce((acc, curr) => acc + curr, 0);
 
   const options = {
     responsive: true,
@@ -94,7 +101,7 @@ export default function ProteinGraph() {
       <h3 style={titleStyle}>Protein Graph</h3>
       <div style={totalStyle}>Total Protein Intake: {totalProtein} g</div>
       <div style={graphStyle}>
-        <Line data={data} options={options} height={300} />
+        <Line data={chartData} options={options} height={300} />
       </div>
     </div>
   );

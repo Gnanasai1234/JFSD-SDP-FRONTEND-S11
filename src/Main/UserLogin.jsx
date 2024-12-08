@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SignInForm from "./SignIn";
 import SignUpForm from "./SignUp";
 
-export default function UserLogin() {
+export default function UserLogin({onUserLoggedIn}) {
   const [type, setType] = useState("signIn");
 
   const handleOnClick = (text) => {
@@ -122,7 +122,7 @@ export default function UserLogin() {
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 550px;
   }
   
   .form-container {
@@ -281,10 +281,11 @@ export default function UserLogin() {
         
         `}
       </style>
-      <h2>User Sign in/up Form</h2>
+      <h2 style={{ marginTop: "100px" }}>User Sign in/up Form</h2>
+      
       <div className={containerClass} id="container">
         <SignUpForm />
-        <SignInForm />
+        <SignInForm onUserLoggedIn={onUserLoggedIn} />
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">

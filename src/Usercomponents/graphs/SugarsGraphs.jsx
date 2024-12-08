@@ -26,13 +26,13 @@ ChartJS.register(
 
 export default function SugarsGraph() {
   const data = {
-    labels: ["Breakfast", "Morning Snack", "Lunch", "Afternoon Snack", "Dinner"],
+    labels: ["Breakfast", "Lunch",  "Dinner","Snack"],
     datasets: [
       {
         label: "Sugars (g)",
         data: [15, 5, 30, 10, 20],
-        borderColor: 'rgba(255, 165, 0, 1)', // Orange color for the border
-        backgroundColor: 'rgba(255, 165, 0, 0.2)', // Light orange for the background
+        borderColor: 'rgba(255, 165, 0, 1)', 
+        backgroundColor: 'rgba(255, 165, 0, 0.2)',
         fill: true,
         tension: 0.4,
       }

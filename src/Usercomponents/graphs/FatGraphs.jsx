@@ -24,13 +24,26 @@ ChartJS.register(
   Filler
 );
 
-export default function FatGraph() {
-  const data = {
-    labels: ["Breakfast", "Morning Snack", "Lunch", "Afternoon Snack", "Dinner"],
+export default function FatGraph({ data }) {
+  const { breakfastSums, dinnerSums, lunchSums, snacksSums } = data;
+
+  const fatData = [
+    breakfastSums.fat,
+    lunchSums.fat,
+    dinnerSums.fat,
+    snacksSums.fat
+
+  ];
+
+  const totalFat =breakfastSums.fat+ snacksSums.fat+lunchSums.fat+dinnerSums.fat;
+
+  // Chart data for fats intake
+  const chartData = {
+    labels: ["Breakfast", "Lunch", "Dinner", "Snack"],
     datasets: [
       {
         label: "Fats (g)",
-        data: [20, 15, 25, 10, 30],
+        data: fatData,
         borderColor: 'rgba(255, 206, 86, 1)',
         backgroundColor: 'rgba(255, 206, 86, 0.2)',
         fill: true,
@@ -39,9 +52,7 @@ export default function FatGraph() {
     ]
   };
 
-  // Calculate total fat intake
-  const totalFat = data.datasets[0].data.reduce((acc, curr) => acc + curr, 0);
-
+  // Chart options
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -56,6 +67,7 @@ export default function FatGraph() {
     },
   };
 
+  // Inline styles for the graph container and components
   const graphContainerStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -94,7 +106,7 @@ export default function FatGraph() {
       <h3 style={titleStyle}>Fats Graph</h3>
       <div style={totalStyle}>Total Fat Intake: {totalFat} g</div>
       <div style={graphStyle}>
-        <Line data={data} options={options} height={300} />
+        <Line data={chartData} options={options} height={300} />
       </div>
     </div>
   );

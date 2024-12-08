@@ -1,36 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from "react-icons/fa";
-import { useState } from "react";
+import { useNavigate } from "react-router";
 
-function SignInForm() {
+function SignInForm({onUserLoggedIn}) {
   const [userCred, setUserCred] = useState({
-    email: "",
+    username: "",
     password: ""
   });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  // const handleChange = evt => {
-  //   const value = evt.target.value;
-  //   setState({
-  //     ...state,
-  //     [evt.target.name]: value
-  //   });
-  // };
+  const handleChange = (e) => {
+    setUserCred({ ...userCred, [e.target.name]: e.target.value });
+  };
 
-  const handleChange=(e)=>{
-    setUserCred({...userCred,[e.target.name]:e.target.value})
-  }
-
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = userCred;
-    alert(`You are logging in with email: ${email} and password: ${password}`);
-
-    // Reset state after submission
-    for (const key in userCred) {
-      setUserCred({
-        ...userCred,
-        [key]: ""
-      });
+    try {
+      const response = await axios.post("http://localhost:8080/user/login", userCred);
+      
+      if (response.status === 200) {
+        localStorage.setItem("user", userCred.username);
+        
+        onUserLoggedIn();
+        setUserCred({ username: "", password: "" });
+        setError(null); 
+        navigate("/user/dashboard") 
+      } else {
+        setError("Login failed. Please try again.");
+        setUserCred({ username: "", password: "" });
+      }
+    } catch (err) {
+      setError("Login failed. Please check your username and password.");
     }
   };
 
@@ -51,10 +53,10 @@ function SignInForm() {
         </div>
         <span>or use your account</span>
         <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={userCred.email}
+          type="text"
+          placeholder="Username"
+          name="username"
+          value={userCred.username}
           onChange={handleChange}
         />
         <input
@@ -64,8 +66,9 @@ function SignInForm() {
           value={userCred.password}
           onChange={handleChange}
         />
-        <a href="#">Forgot your password?</a>
-        <button>Sign In</button>
+        {error && <p className="error-message">{error}</p>}
+        <br/>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );
