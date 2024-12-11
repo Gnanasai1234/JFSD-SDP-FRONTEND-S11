@@ -42,7 +42,7 @@ function SignUpForm() {
   const handleOnSubmit = async (evt) => {
     evt.preventDefault();
 
-    const response = await axios.post("http://localhost:8080/user/register", state);
+    const response = await axios.post("https://backendapp-production-8749.up.railway.app/user/register", state);
 
     if (response.status === 200) {
       setMessage({

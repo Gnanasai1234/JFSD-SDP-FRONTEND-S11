@@ -62,7 +62,7 @@ const AddFood = () => {
     if (imageFile) formData.append('image', imageFile);
 
     try {
-      const response = await axios.post('http://localhost:8080/food/addfood', formData, {
+      const response = await axios.post('https://backendapp-production-8749.up.railway.app/food/addfood', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setFoodData({

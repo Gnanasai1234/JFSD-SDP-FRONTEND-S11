@@ -14,7 +14,7 @@ export default function ViewAllExercises() {
 
   const getExercises = async () => {
     await axios
-      .get('http://localhost:8080/exercise/viewallexercises')
+      .get('https://backendapp-production-8749.up.railway.app/exercise/viewallexercises')
       .then((response) => {
         setExercises(response.data);
         setLoading(false);

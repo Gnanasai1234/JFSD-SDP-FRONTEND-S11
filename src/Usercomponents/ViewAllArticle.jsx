@@ -25,7 +25,7 @@ export default function ViewAllArticle() {
 
   const fetchArticle = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/article/viewallarticles');
+      const response = await axios.get('https://backendapp-production-8749.up.railway.app/article/viewallarticles');
       console.log(response.data)
       if (response.status === 202) {
         setRows(response.data || []);
@@ -56,7 +56,7 @@ export default function ViewAllArticle() {
   const navigate=useNavigate()
 
   const ViewArticle = async (aid) => {
-    const response = await axios.get(`http://localhost:8080/article/viewarticlebyid/${aid}`)
+    const response = await axios.get(`https://backendapp-production-8749.up.railway.app/article/viewarticlebyid/${aid}`)
     console.log(response.data)
     const handleUpdateDiet = () => {
       navigate("/user/viewarticle", {

@@ -135,8 +135,8 @@ export default function ViewUserDiet() {
         return;
       }
 
-    //   const userdata = await axios.get(`http://localhost:8080/user/getuserdata/${username}`);
-      const response = await axios.get(`http://localhost:8080/diet/getuserdiet/${rowid}/${date}`);
+    //   const userdata = await axios.get(`https://backendapp-production-8749.up.railway.app/user/getuserdata/${username}`);
+      const response = await axios.get(`https://backendapp-production-8749.up.railway.app/diet/getuserdiet/${rowid}/${date}`);
       setDiet(response.data);
     } catch (error) {
       console.error("Error fetching data:", error); 
@@ -152,7 +152,7 @@ export default function ViewUserDiet() {
         return;
       }
   
-      const response = await axios.get(`http://localhost:8080/userexercise/getExercise/${rowid}`);
+      const response = await axios.get(`https://backendapp-production-8749.up.railway.app/userexercise/getExercise/${rowid}`);
       const exerciseData = response.data;
   
       const summary = exerciseData.reduce((acc, exercise) => {

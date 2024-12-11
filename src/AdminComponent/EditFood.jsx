@@ -88,7 +88,7 @@ const EditFood = () => {
   
     try {
       // Send the request to the backend
-      const response = await axios.post('http://localhost:8080/food/editfood', formData, {
+      const response = await axios.post('https://backendapp-production-8749.up.railway.app/food/editfood', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
   

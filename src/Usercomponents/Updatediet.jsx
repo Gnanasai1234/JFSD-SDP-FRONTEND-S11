@@ -95,7 +95,7 @@ const UpdateDiet = () => {
 
     try {
       const userResponse = await axios.get(
-        `http://localhost:8080/user/getuserdata/${localStorage.getItem('user')}`
+        `https://backendapp-production-8749.up.railway.app/user/getuserdata/${localStorage.getItem('user')}`
       );
       const preparedData = {
         uid: userResponse.data.uid,
@@ -110,7 +110,7 @@ const UpdateDiet = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:8080/diet/updatediet',
+        'https://backendapp-production-8749.up.railway.app/diet/updatediet',
         preparedData,
         { headers: { 'Content-Type': 'application/json' } }
       );

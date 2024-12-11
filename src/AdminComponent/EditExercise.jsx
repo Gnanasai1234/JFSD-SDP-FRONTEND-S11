@@ -74,7 +74,7 @@ const EditExercise = () => {
 
     try {
       // Send the request to the backend
-      const response = await axios.post('http://localhost:8080/exercise/editexercise', formData, {
+      const response = await axios.post('https://backendapp-production-8749.up.railway.app/exercise/editexercise', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

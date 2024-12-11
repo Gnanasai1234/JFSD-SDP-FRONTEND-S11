@@ -72,7 +72,7 @@ const UpdateExercise = () => {
 
     try {
       const userResponse = await axios.get(
-        `http://localhost:8080/user/getuserdata/${localStorage.getItem('user')}`
+        `https://backendapp-production-8749.up.railway.app/user/getuserdata/${localStorage.getItem('user')}`
       );
 
       const preparedData = {
@@ -85,7 +85,7 @@ const UpdateExercise = () => {
       console.log(preparedData)
 
       const response = await axios.post(
-        'http://localhost:8080/userexercise/updateexercise',
+        'https://backendapp-production-8749.up.railway.app/userexercise/updateexercise',
         preparedData,
         { headers: { 'Content-Type': 'application/json' } }
       );

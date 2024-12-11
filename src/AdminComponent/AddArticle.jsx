@@ -22,7 +22,7 @@ const AddArticle = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/article/addarticle",
+        "https://backendapp-production-8749.up.railway.app/article/addarticle",
         formData,
         {
           headers: {

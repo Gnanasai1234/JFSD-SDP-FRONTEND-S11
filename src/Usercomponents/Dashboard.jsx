@@ -155,7 +155,7 @@ export default function Dashboard() {
         throw new Error("No username found. Please log in.");
       }
 
-      const userResponse = await axios.get(`http://localhost:8080/user/getuserdata/${username}`);
+      const userResponse = await axios.get(`https://backendapp-production-8749.up.railway.app/user/getuserdata/${username}`);
       const userData = userResponse.data;
       
       if (!userData || !userData.uid) {
@@ -163,12 +163,12 @@ export default function Dashboard() {
       }
       console.log("User Data",userData)
 
-      const dietResponse = await axios.get(`http://localhost:8080/diet/getuserdiet/${userData.uid}/${date}`);
+      const dietResponse = await axios.get(`https://backendapp-production-8749.up.railway.app/diet/getuserdiet/${userData.uid}/${date}`);
       setDiet(dietResponse.data);
 
       console.log(dietResponse)
 
-      const exerciseResponse = await axios.get(`http://localhost:8080/userexercise/getExercise/${userData.uid}`);
+      const exerciseResponse = await axios.get(`https://backendapp-production-8749.up.railway.app/userexercise/getExercise/${userData.uid}`);
       processExerciseData(exerciseResponse.data);
 
     } catch (error) {

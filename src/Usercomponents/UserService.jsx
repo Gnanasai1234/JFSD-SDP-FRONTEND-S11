@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/users';
+const API_URL = 'https://backendapp-production-8749.up.railway.app/api/users';
 
 const addUser = (user) => axios.post(`${API_URL}/add`, user);
 const getUserById = (id) => axios.get(`${API_URL}/${id}`);

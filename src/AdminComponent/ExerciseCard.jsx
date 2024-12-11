@@ -23,7 +23,7 @@ const ExerciseCard = ({ exercise }) => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8080/exercise/deleteexercisebyid/${id}`);
+      const response = await axios.post(`https://backendapp-production-8749.up.railway.app/exercise/deleteexercisebyid/${id}`);
       console.log(response.data);
       window.location.reload();
     } catch (err) {

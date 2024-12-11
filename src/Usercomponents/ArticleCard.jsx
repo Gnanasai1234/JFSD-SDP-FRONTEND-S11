@@ -56,7 +56,7 @@ const ArticleCard = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/articles/updatearticle',
+        'https://backendapp-production-8749.up.railway.app/articles/updatearticle',
         articleData,
         { headers: { 'Content-Type': 'application/json' } }
       );

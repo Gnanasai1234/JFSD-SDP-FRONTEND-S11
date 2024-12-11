@@ -33,7 +33,7 @@ export default function StickyHeadTable() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/user/viewallusers');
+        const response = await axios.get('https://backendapp-production-8749.up.railway.app/user/viewallusers');
         if (response.status === 200) {
           setRows(response.data);
           console.log(response.data);
@@ -62,7 +62,7 @@ export default function StickyHeadTable() {
 
   const deleteUser = async (uid) => {
     try {
-      const response = await axios.post(`http://localhost:8080/user/deleteuser/${uid}`);
+      const response = await axios.post(`https://backendapp-production-8749.up.railway.app/user/deleteuser/${uid}`);
       if (response.status === 202) {
         setRows(rows.filter((row) => row.uid !== uid));
         alert(`User ${uid} has been successfully deleted.`);

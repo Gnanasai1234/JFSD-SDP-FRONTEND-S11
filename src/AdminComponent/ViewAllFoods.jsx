@@ -11,7 +11,7 @@ export default function ViewAllFoods() {
   const [isFocused, setIsFocused] = useState(false);
 
   const getFoods =async () => {
-  await  axios.get('http://localhost:8080/food/viewallfoods')
+  await  axios.get('https://backendapp-production-8749.up.railway.app/food/viewallfoods')
       .then(response => {
         setFoods(response.data);
         setLoading(false);

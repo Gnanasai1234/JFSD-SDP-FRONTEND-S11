@@ -24,7 +24,7 @@ export default function Login({onAdminLoggedIn}) {
   const submitForm = async(e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/admin/login", userCred);
+      const response = await axios.post("https://backendapp-production-8749.up.railway.app/admin/login", userCred);
       
       if (response.status === 200) {
         localStorage.setItem("user", userCred.username);

@@ -24,7 +24,7 @@ const FoodCard = ({ food }) => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8080/food/deletefoodbyid/${id}`);
+      const response = await axios.post(`https://backendapp-production-8749.up.railway.app/food/deletefoodbyid/${id}`);
       console.log(response.data);
       window.location.reload();
     } catch (err) {

@@ -32,7 +32,7 @@ const UserProfile = () => {
       const userId = localStorage.getItem("user");
       try {
         const response = await axios.get(
-          `http://localhost:8080/user/getuserdata/${userId}`
+          `https://backendapp-production-8749.up.railway.app/user/getuserdata/${userId}`
         );
         setUser(response.data);
       } catch (error) {
@@ -49,7 +49,7 @@ const UserProfile = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put("http://localhost:8080/user/updateprofile", user);
+      const response = await axios.put("https://backendapp-production-8749.up.railway.app/user/updateprofile", user);
       if (response.status === 200) {
         alert("Profile updated successfully!");
         setIsEditing(false);

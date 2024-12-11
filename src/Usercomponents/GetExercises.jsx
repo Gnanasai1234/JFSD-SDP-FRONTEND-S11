@@ -12,7 +12,7 @@ export default function GetExercises() {
 
   const getExercise = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/exercise/viewallexercises');
+      const response = await axios.get('https://backendapp-production-8749.up.railway.app/exercise/viewallexercises');
       setExercise(response.data);
       setLoading(false);
     } catch (error) {
