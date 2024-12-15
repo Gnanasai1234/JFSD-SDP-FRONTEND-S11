@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { AlertTriangle, CheckCircle2, XCircle } from 'lucide-react';
 
 const AddExercise = () => {
   const [exerciseData, setExerciseData] = useState({
@@ -7,6 +8,8 @@ const AddExercise = () => {
     calorieBurn: '',
   });
   const [imageFile, setImageFile] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [submissionStatus, setSubmissionStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,28 +17,65 @@ const AddExercise = () => {
       ...exerciseData,
       [name]: value,
     });
+    // Clear specific field error when user starts typing
+    if (errors[name]) {
+      const newErrors = { ...errors };
+      delete newErrors[name];
+      setErrors(newErrors);
+    }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    setErrors(prevErrors => {
+      const newErrors = { ...prevErrors };
+      delete newErrors.image;
+      return newErrors;
+    });
+
     if (file && file.type.startsWith('image/')) {
       if (file.size > 20 * 1024 * 1024) {
-        alert('Please select an image smaller than 20MB.');
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          image: 'Image must be smaller than 20MB'
+        }));
         setImageFile(null);
         return;
       }
       setImageFile(file);
-    } else {
-      alert('Please select a valid image file (JPEG, PNG, etc.).');
+    } else if (file) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        image: 'Please select a valid image file (JPEG, PNG, etc.)'
+      }));
       setImageFile(null);
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Check required fields
+    Object.entries(exerciseData).forEach(([key, value]) => {
+      if (!value.toString().trim()) {
+        newErrors[key] = `${key === 'exerciseType' ? 'Exercise Type' : 'Calorie Burn'} is required`;
+      }
+    });
+
+    // Image validation
+    if (!imageFile) {
+      newErrors.image = 'Please upload an exercise image';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmissionStatus(null);
 
-    if (!exerciseData.exerciseType || !exerciseData.calorieBurn) {
-      alert('Please fill in all required fields.');
+    if (!validateForm()) {
       return;
     }
 
@@ -52,75 +92,144 @@ const AddExercise = () => {
       const response = await axios.post('https://backendapp-production-8749.up.railway.app/exercise/addexercise', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+      
+      // Reset form
       setExerciseData({
         exerciseType: '',
         calorieBurn: '',
       });
-      alert(response.data.message || 'Exercise item added successfully!');
       setImageFile(null);
+      setErrors({});
+      
+      // Set success status
+      setSubmissionStatus({
+        type: 'success',
+        message: response.data.message || 'Exercise item added successfully!'
+      });
     } catch (error) {
       console.error('There was an error adding the exercise item!', error);
-      alert(error.response?.data?.message || 'Failed to add exercise item. Please try again.');
+      setSubmissionStatus({
+        type: 'error',
+        message: error.response?.data?.message || 'Failed to add exercise item. Please try again.'
+      });
     }
   };
 
   return (
-    <>
-      <style>
-        {`
-          body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f4f4f9;
-            color: #333;
-          }
-        `}
-      </style>
+    <div style={styles.container}>
       <div style={styles.form}>
         <h2 style={styles.heading}>Add Exercise</h2>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <input
-            style={styles.input}
-            type="text"
-            name="exerciseType"
-            placeholder="Exercise Type"
-            value={exerciseData.exerciseType}
-            onChange={handleChange}
-            required
-          />
-          <input
-            style={styles.input}
-            type="number"
-            name="calorieBurn"
-            placeholder="Calorie Burn"
-            value={exerciseData.calorieBurn}
-            onChange={handleChange}
-            required
-          />
-          <div style={styles.fileInputWrapper}>
-            <label style={styles.fileLabel}>Exercise Image</label>
+          {/* Exercise Type Input */}
+          <div style={styles.inputGroup}>
             <input
-              style={styles.fileInput}
+              style={{
+                ...styles.input,
+                borderColor: errors.exerciseType ? '#ff6b6b' : '#ddd'
+              }}
+              type="text"
+              name="exerciseType"
+              placeholder="Exercise Type"
+              value={exerciseData.exerciseType}
+              onChange={handleChange}
+            />
+            {errors.exerciseType && (
+              <div style={styles.errorMessage}>
+                <XCircle size={16} color="#ff6b6b" style={styles.errorIcon} />
+                {errors.exerciseType}
+              </div>
+            )}
+          </div>
+
+          {/* Calorie Burn Input */}
+          <div style={styles.inputGroup}>
+            <input
+              style={{
+                ...styles.input,
+                borderColor: errors.calorieBurn ? '#ff6b6b' : '#ddd'
+              }}
+              type="number"
+              name="calorieBurn"
+              placeholder="Calorie Burn"
+              value={exerciseData.calorieBurn}
+              onChange={handleChange}
+            />
+            {errors.calorieBurn && (
+              <div style={styles.errorMessage}>
+                <XCircle size={16} color="#ff6b6b" style={styles.errorIcon} />
+                {errors.calorieBurn}
+              </div>
+            )}
+          </div>
+
+          {/* File Input */}
+          <div style={styles.fileInputWrapper}>
+            <label htmlFor="fileInput" style={styles.fileLabel}>
+              Exercise Image
+            </label>
+            <input
+              style={{
+                ...styles.fileInput,
+                borderColor: errors.image ? '#ff6b6b' : '#ddd'
+              }}
               type="file"
+              id="fileInput"
               accept="image/*"
               onChange={handleFileChange}
             />
+            {errors.image && (
+              <div style={styles.errorMessage}>
+                <XCircle size={16} color="#ff6b6b" style={styles.errorIcon} />
+                {errors.image}
+              </div>
+            )}
+            {imageFile && (
+              <div style={styles.fileSuccessMessage}>
+                <CheckCircle2 size={16} color="#48bb78" style={styles.successIcon} />
+                {imageFile.name}
+              </div>
+            )}
           </div>
+
+          {/* Submission Status Message */}
+          {submissionStatus && (
+            <div style={
+              submissionStatus.type === 'success' 
+                ? styles.successMessage 
+                : styles.errorMessage
+            }>
+              {submissionStatus.type === 'success' ? (
+                <CheckCircle2 size={20} color="#48bb78" style={styles.successIcon} />
+              ) : (
+                <AlertTriangle size={20} color="#ff6b6b" style={styles.errorIcon} />
+              )}
+              {submissionStatus.message}
+            </div>
+          )}
+
           <button
             style={styles.button}
             type="submit"
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.02)'}  // Hover effect
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}  // Remove hover effect
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.02)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             Add Exercise
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
 const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: '#f4f4f9',
+    padding: '2rem',
+  },
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -130,7 +239,7 @@ const styles = {
     borderRadius: '12px',
     boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
     maxWidth: '500px',
-    margin: '2rem auto',
+    width: '100%',
     background: 'linear-gradient(145deg, #ffffff, #f9f9f9)',
     border: '1px solid #ddd',
     boxSizing: 'border-box',
@@ -142,15 +251,37 @@ const styles = {
     color: '#333',
     textAlign: 'center',
   },
+  inputGroup: {
+    width: '100%',
+    marginBottom: '1rem',
+  },
   input: {
     width: '100%',
     padding: '0.75rem 1rem',
-    marginBottom: '1.2rem',
     border: '1px solid #ddd',
     borderRadius: '8px',
     fontSize: '1rem',
     backgroundColor: '#f9f9f9',
-    transition: 'border-color 0.3s ease, background-color 0.3s ease',
+    transition: 'border-color 0.3s ease',
+    boxSizing: 'border-box',
+  },
+  fileInputWrapper: {
+    width: '100%',
+    marginBottom: '1rem',
+  },
+  fileLabel: {
+    display: 'block',
+    marginBottom: '0.5rem',
+    fontSize: '1rem',
+    color: '#333',
+  },
+  fileInput: {
+    width: '100%',
+    padding: '0.75rem 1rem',
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    fontSize: '1rem',
+    backgroundColor: '#f9f9f9',
     boxSizing: 'border-box',
   },
   button: {
@@ -162,34 +293,43 @@ const styles = {
     fontSize: '1.1rem',
     fontWeight: '500',
     cursor: 'pointer',
-    transition: 'transform 0.3s ease', // Added the scale effect transition
+    transition: 'transform 0.3s ease',
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '0.5rem',
   },
-  fileInputWrapper: {
+  errorMessage: {
+    color: '#ff6b6b',
+    fontSize: '0.875rem',
+    marginTop: '0.5rem',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginBottom: '1.5rem',
-    width: '100%',
+    alignItems: 'center',
   },
-  fileLabel: {
-    fontSize: '1rem',
-    color: '#333',
-    marginBottom: '0.5rem',
+  errorIcon: {
+    marginRight: '0.5rem',
   },
-  fileInput: {
-    width: '100%',
-    padding: '0.75rem 1rem',
-    fontSize: '1rem',
+  successMessage: {
+    color: '#48bb78',
+    backgroundColor: '#f0fff4',
+    border: '1px solid #48bb78',
+    padding: '0.75rem',
     borderRadius: '8px',
-    border: '1px solid #ddd',
-    backgroundColor: '#f9f9f9',
-    boxSizing: 'border-box',
-    marginBottom: '1.2rem',
+    fontSize: '1rem',
+    marginBottom: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  successIcon: {
+    marginRight: '0.5rem',
+  },
+  fileSuccessMessage: {
+    color: '#48bb78',
+    fontSize: '0.875rem',
+    marginTop: '0.5rem',
+    display: 'flex',
+    alignItems: 'center',
   },
 };
 
