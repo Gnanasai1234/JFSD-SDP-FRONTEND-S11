@@ -115,7 +115,7 @@ const FoodCard = ({ food }) => {
 
       <div className="food-card-content">
         <div>
-          <h3 className="food-card-title">{food.name}</h3>
+          <h3 className="food-card-title">{food.name} per 100g</h3>
           <div style={{height: '1px', width: '80%', background: '#ccc', margin: '0.5rem auto'}}></div>
           <ul style={{listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
             <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'}}>
