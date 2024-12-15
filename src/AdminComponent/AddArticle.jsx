@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 
 const AddArticle = () => {
   const [formData, setFormData] = useState({
@@ -10,10 +10,10 @@ const AddArticle = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData(prevData => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -32,6 +32,7 @@ const AddArticle = () => {
       );
 
       alert("Article added successfully!");
+      // Reset form after successful submission
       setFormData({
         relatedto: "",
         title: "",
